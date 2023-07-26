@@ -32,6 +32,9 @@ const cors_1 = __importDefault(require("cors"));
 const morgan_1 = __importDefault(require("morgan"));
 const ipfs_controller_1 = __importDefault(require("./controllers/ipfs-controller"));
 const dao_controller_1 = __importDefault(require("./controllers/dao-controller"));
+const investment_controller_1 = __importDefault(require("./controllers/investment-controller"));
+const chainID = process.env.CHAIN_ID;
+const ipfsGateway = process.env.IPFS_GATEWAY;
 exports.app = (0, express_1.default)();
 exports.app.use((0, morgan_1.default)("combined"));
 exports.app.use((0, cors_1.default)());
@@ -41,6 +44,13 @@ exports.app.use((0, express_1.urlencoded)({
 exports.app.use((0, express_1.json)());
 exports.app.use("/ipfs", ipfs_controller_1.default);
 exports.app.use("/dao", dao_controller_1.default);
+exports.app.use("/investment", investment_controller_1.default);
 exports.app.use("/", (req, res) => {
-    res.send("hello");
+    res.send({
+        message: "Hello world!",
+        data: {
+            chainID: chainID,
+            ipfsGateway: ipfsGateway,
+        },
+    });
 });

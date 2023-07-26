@@ -30,12 +30,12 @@ const dotenv = __importStar(require("dotenv"));
 dotenv.config();
 const app_1 = require("./src/app");
 const event_listener_1 = __importDefault(require("./src/event-listener"));
-console.log(process.env);
-const port = process.env.PORT || 3000;
+const host = process.env.APPLICATION_SERVER_HOST || "localhost";
+const port = Number(process.env.PORT || 3000);
 const chainID = process.env.CHAIN_ID;
-app_1.app.listen(port, async () => {
+app_1.app.listen(port, host, async () => {
     event_listener_1.default.registerEvent(chainID).then(() => {
-        event_listener_1.default.startListen(chainID);
+        event_listener_1.default.listenMerkleLeafInserted(chainID, true);
     });
-    console.log(`Private-DAO application server listening at http://localhost:${port}`);
+    console.log(`Private-DAO application server listening at ${host}:${port}`);
 });

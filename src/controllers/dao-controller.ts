@@ -37,7 +37,7 @@ daoRouter.post("/all", async (req, res) => {
         let daoCounter = Number(counters[0]);
         let fundingRoundCounter = Number(counters[1]);
         if (daoCounter > 0) {
-            let daoAddressesPromise = await Promise.all(
+            let daoAddressesPromise = Promise.all(
                 [...Array(Number(daoCounter)).keys()].map((index: number) =>
                     daoManager.daos(index)
                 )
@@ -104,6 +104,7 @@ daoRouter.post("/all", async (req, res) => {
                 data.push({
                     daoAddress: daoAddresses[i],
                     descriptionHash: descriptionHashes[i],
+                    ipfsHash: Helper.bytes32ToIpfsHash(descriptionHashes[i]),
                     totalFunded: 0n,
                 });
             }
@@ -168,6 +169,7 @@ daoRouter.post("/:daoID/proposals", async (req, res) => {
                 data.push({
                     proposalID: proposalIDs[i],
                     descriptionHash: promiseResults[0][i],
+                    ipfsHash: Helper.bytes32ToIpfsHash(promiseResults[0][i]),
                     state: promiseResults[1][i],
                 });
             }
@@ -243,7 +245,7 @@ daoRouter.post("/:daoID/proposals/:proposalID", async (req, res) => {
         };
         res.send({ data: data });
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         res.status(500).send(err);
     }
 });

@@ -33,7 +33,9 @@ var EventRegistryRepository;
     }
     EventRegistryRepository.findAll = findAll;
     async function findByEventRegistryID(eventRegistryID) {
-        return await EventRegistry.findOne({ eventRegistryID: eventRegistryID });
+        return await EventRegistry.findOne({
+            eventRegistryID: eventRegistryID,
+        });
     }
     EventRegistryRepository.findByEventRegistryID = findByEventRegistryID;
     async function findByEventSignatureHashAndChainIDandContractName(eventSignatureHash, chainID, contractName) {
@@ -45,14 +47,19 @@ var EventRegistryRepository;
     }
     EventRegistryRepository.findByEventSignatureHashAndChainIDandContractName = findByEventSignatureHashAndChainIDandContractName;
     async function create(eventRegistryID, eventSignature, eventSignatureHash, chainID, contractName, contractAddress) {
-        await EventRegistry.updateOne({ eventRegistryID: eventRegistryID }, {
-            eventRegistryID: eventRegistryID,
-            eventSignature: eventSignature,
-            eventSignatureHash: eventSignatureHash,
-            chainID: chainID,
-            contractName: contractName,
-            contractAddress: contractAddress,
-        }, { upsert: true, setDefaultsOnInsert: true });
+        try {
+            await EventRegistry.updateOne({ eventRegistryID: eventRegistryID }, {
+                eventRegistryID: eventRegistryID,
+                eventSignature: eventSignature,
+                eventSignatureHash: eventSignatureHash,
+                chainID: chainID,
+                contractName: contractName,
+                contractAddress: contractAddress,
+            }, { upsert: true, setDefaultsOnInsert: true });
+        }
+        catch (err) {
+            console.log(err);
+        }
     }
     EventRegistryRepository.create = create;
 })(EventRegistryRepository || (exports.EventRegistryRepository = EventRegistryRepository = {}));

@@ -6,11 +6,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const axios_1 = __importDefault(require("axios"));
 const form_data_1 = __importDefault(require("form-data"));
+const helper_1 = __importDefault(require("../helper"));
 const ipfsRouter = express_1.default.Router();
 ipfsRouter.post("/upload", async (req, res) => {
     try {
         let data = JSON.stringify(req.body);
-        console.log(data);
+        // console.log(data);
         let formData = new form_data_1.default();
         formData.append("file", data);
         let requestURL = process.env.INFURA_IPFS_ENDPOINT + "/add";
@@ -24,7 +25,8 @@ ipfsRouter.post("/upload", async (req, res) => {
             },
         });
         res.send({
-            hash: response.data.Hash,
+            ipfsHash: response.data.Hash,
+            descriptionHash: helper_1.default.ipfsHashToBytes32(response.data.Hash),
         });
     }
     catch (err) {

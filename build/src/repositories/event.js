@@ -7,7 +7,7 @@ exports.EventRepository = exports.Event = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const _1 = __importDefault(require("."));
 const Event = _1.default.model("Event", new mongoose_1.default.Schema({
-    transactionHash: { type: String, required: true, unique: true },
+    transactionHash: { type: String, required: true },
     eventRegistryID: {
         type: String,
         required: true,
@@ -20,7 +20,7 @@ exports.Event = Event;
 var EventRepository;
 (function (EventRepository) {
     async function create(transactionHash, eventRegistryID, blockNumber, topics) {
-        await Event.updateOne({ transactionHash: transactionHash }, {
+        await Event.updateOne({ eventRegistryID: eventRegistryID, topics: topics }, {
             transactionHash: transactionHash,
             eventRegistryID: eventRegistryID,
             blockNumber: blockNumber,

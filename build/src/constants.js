@@ -13,6 +13,7 @@ exports.ADDRESSES = {
         FundManager: "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6",
         DAOManager: "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853",
         DKG: "0x06B1D212B8da92b83AF328De5eef4E211Da02097",
+        Queue: "0x94099942864EA81cCF197E9D71ac53310b1468D8",
     },
     "5": {
         Round2ContributionVerifier: "0x4D5a5d6704992A29FD0483B5267FD1c73132612b",
@@ -31,47 +32,32 @@ exports.ADDRESSES = {
         FundManager: "0x4F552c423b7Fa28A889E07096B1131FBAd350d51",
         DAOManager: "0xd95B22DAeb060E2Ab68b319aacb94DE1899C210E",
         DKG: "0xe22f737AB1bc03Ce6CB701C3a2Ec1D324cc4DA58",
-        QUEUE: "0xCC8c42d6E4da920Ab053d1beE91064b4c80e1797",
+        Queue: "0xCC8c42d6E4da920Ab053d1beE91064b4c80e1797",
     },
     "11155111": {
-        Round2ContributionVerifier: "0x0204133D60c28d539802b8fa8b0D4b30f6D0Ca4A",
-        FundingVerifierDim3: "0x109D82Fa17F773155668a5F34e9b40416ef5Cb45",
-        VotingVerifierDim3: "0x8E73fA58138bA142b821A3f4A54c2a70d71445BB",
-        TallyContributionVerifierDim3: "0x365b1ec961fd5DC748Bbb36fa5FF74294Ac23712",
-        ResultVerifierDim3: "0xFe712985329d5683471F0eAb21D3C0E109bBA6D5",
-        PoseidonUnit2: "0x802eC44fA784F2bac33725729AF22b07EEAddeF0",
-        Poseidon: "0x8864267084CA3B080e9087EB5C8c7F8d552099a5",
-        // FundManager: "0x119cA4DBdC5E30749b85A6eDcB3A0C99444e6062",
-        // DAOManager: "0x942Ce1A60117a2eF9Aed65C2F4b2b6aba0998F87",
-        // DKG: "0x17d18135Acd0cA60d0D0d3687C852e84c2230b3a",
-        // QUEUE: "0x835247c8C195350e48cdb4b5A026D397BEC04d80",
-        FundManager: "0xb4Dde6Dba767A281ef15bc4c64E8607ceC25420D",
-        DAOManager: "0x965EFc23245A626532D10A1fF95f3A899718e36c",
-        DKG: "0xcC6C0B223c3041431AE38388AA181c4a376cFd67",
-        QUEUE: "0xC5543A38D9DB32BB5d85737756B240696cCa3cCd",
+        Round2ContributionVerifier: "0x7295fbD3Ab027Dc289eA130E03Cd8E1C5440891c",
+        FundingVerifierDim3: "0x65094F42cf0e739EaDa3d47868B7162dEBc6B2CF",
+        VotingVerifierDim3: "0xD99e920665366A24A062413461f1E52a51dB61da",
+        TallyContributionVerifierDim3: "0x6933A2Bf57d447CD017870b56201107ef67f2cB3",
+        ResultVerifierDim3: "0xc5F2e90358C384187Ac9aCFD3256937B6D69Daee",
+        PoseidonUnit2: "0xEEaa5c32Bf5bf5c552cE670BE1D58A4E61EC5b9B",
+        Poseidon: "0xf02A06A12E7c7D1f06ee676634D6CbEE91F82A4e",
+        FundManager: "0x841DAaC5b3612D84F2b7514C8A2835f578CC8671",
+        DAOManager: "0x1cbdf9B3f9B26B5e54C215B7eD0Ca05858EacabB",
+        DKG: "0xa505BcaBb99a8CA75AEBDff22C4877B89e3a0B11",
+        Queue: "0x321B02463b6fb9ac49d908ED41fa86E71AA8cEF0",
     },
 };
 exports.daoCreatedEventSignatureHash = "0x4dad5a8bd398f3fedacffabce7d350215d09253a8df80f630e60558197aa6681";
 exports.proposalCreatedEventSignatureHash = "0xe89ca49b18459b17a2cfc1701e971d1fd31d17864d6784c5b45c145f7a30aade";
 exports.leafInsertedEventSignatureHash = "0xe6feaf86f7be78c4928296db428cc35d7bf8f31e386692bcb1476c1364093258";
-exports.EVENT_REGISTRIES = [
-    {
-        eventSignature: "DAOCreated(uint256 , address indexed, address, bytes32 indexed)",
-        eventSignatureHash: "0x4dad5a8bd398f3fedacffabce7d350215d09253a8df80f630e60558197aa6681",
-        contractName: "DAOManager",
-    },
-    {
-        eventSignature: "ProposalCreated(uint256, uint256 indexed, address,(address, uint256, string, bytes)[], uint256, bytes32 indexed)",
-        eventSignatureHash: "0xe89ca49b18459b17a2cfc1701e971d1fd31d17864d6784c5b45c145f7a30aade",
-        contractName: "DAO",
-    },
-    {
+exports.EVENT_REGISTRIES = {
+    MerkleLeafInserted: {
         eventSignature: "LeafInserted(uint32 indexed, uint256 indexed)",
         eventSignatureHash: "0xe6feaf86f7be78c4928296db428cc35d7bf8f31e386692bcb1476c1364093258",
         contractName: "FundManager",
     },
-];
+};
 exports.mappingChainIDToInfuraNetworkish = {
-    "31337": "",
     "11155111": "sepolia",
 };
