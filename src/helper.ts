@@ -10,7 +10,8 @@ const minimalUnit = bigInt(
 namespace Helper {
     export function getProvider() {
         if (chainID == "31337") {
-            let provider = new ethers.JsonRpcProvider("http://127.0.0.1:8545/");
+            // let provider = new ethers.JsonRpcProvider("http://127.0.0.1:8545/");
+            let provider = new ethers.JsonRpcProvider("http://35.197.144.121:8545/");
             return provider;
         } else {
             let provider = new ethers.InfuraProvider(
