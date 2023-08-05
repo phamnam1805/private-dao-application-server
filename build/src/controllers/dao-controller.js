@@ -25,7 +25,7 @@ daoRouter.post("/all", async (req, res) => {
         let daoCounter = Number(counters[0]);
         let fundingRoundCounter = Number(counters[1]);
         if (daoCounter > 0) {
-            let daoAddressesPromise = await Promise.all([...Array(Number(daoCounter)).keys()].map((index) => daoManager.daos(index)));
+            let daoAddressesPromise = Promise.all([...Array(Number(daoCounter)).keys()].map((index) => daoManager.daos(index)));
             let fundingRoundsPromise = Promise.all([...Array(Number(fundingRoundCounter)).keys()].map(async (fundingRoundID) => {
                 let fundingRoundState = Number(await fundManager.getFundingRoundState(fundingRoundID));
                 if (fundingRoundState == 4) {
@@ -190,7 +190,7 @@ daoRouter.post("/:daoID/proposals/:proposalID", async (req, res) => {
         res.send({ data: data });
     }
     catch (err) {
-        console.log(err);
+        // console.log(err);
         res.status(500).send(err);
     }
 });

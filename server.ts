@@ -10,7 +10,7 @@ const chainID = process.env.CHAIN_ID as string;
 
 app.listen(port, host, async () => {
     EventListener.registerEvent(chainID).then(() => {
-        EventListener.listenMerkleLeafInserted(chainID, true);
+        EventListener.listenMerkleLeafInserted(chainID, false);
     });
     console.log(
         `Private-DAO application server listening at ${host}:${port}`

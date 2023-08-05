@@ -61,6 +61,7 @@ investmentRouter.post("/funding-rounds", async (req, res) => {
                 tallyPeriod: fundingRoundConfig.tallyPeriod,
             };
             data.fundingRoundQueue = fundingRoundQueue;
+            let fundingRoundKeys = await Promise.all(fundingRounds.map((fundingRound) => fundManager.getDistributedKeyID(fundingRound.requestID)));
             let fundingRoundResults = await Promise.all(fundingRounds.map((fundingRound) => fundManager.getResult(fundingRound.requestID)));
             for (let i = 0; i < fundingRoundCounter - 1; i++) {
                 data.oldFundingRounds.push({
@@ -72,6 +73,7 @@ investmentRouter.post("/funding-rounds", async (req, res) => {
                     launchedAt: fundingRounds[i].launchedAt,
                     finalizedAt: fundingRounds[i].finalizedAt,
                     failedAt: fundingRounds[i].failedAt,
+                    keyID: fundingRoundKeys[i],
                 });
             }
             if (fundingRoundStates[lastFundingRoundID] < 4n) {
@@ -84,6 +86,7 @@ investmentRouter.post("/funding-rounds", async (req, res) => {
                     launchedAt: fundingRounds[lastFundingRoundID].launchedAt,
                     finalizedAt: fundingRounds[lastFundingRoundID].finalizedAt,
                     failedAt: fundingRounds[lastFundingRoundID].failedAt,
+                    keyID: fundingRoundKeys[lastFundingRoundID],
                 };
             }
             else {
@@ -96,6 +99,7 @@ investmentRouter.post("/funding-rounds", async (req, res) => {
                     launchedAt: fundingRounds[lastFundingRoundID].launchedAt,
                     finalizedAt: fundingRounds[lastFundingRoundID].finalizedAt,
                     failedAt: fundingRounds[lastFundingRoundID].failedAt,
+                    keyID: fundingRoundKeys[lastFundingRoundID],
                 });
             }
         }
