@@ -248,7 +248,7 @@ committeeRouter.post("/distributed-key-requests", async (req, res) => {
 
             let proposals = await Promise.all(proposalsPromise);
 
-            for (let i = 0; i < results.length; i++) {
+            for (let i = 0; i < proposals.length; i++) {
                 requestIDs = requestIDs.concat(proposals[i][0]);
             }
         }
@@ -341,7 +341,7 @@ committeeRouter.post("/distributed-key-requests", async (req, res) => {
         };
         res.send({ data: data });
     } catch (err) {
-        // console.log(err);
+        console.log(err);
         res.status(500).send(err);
     }
 });
