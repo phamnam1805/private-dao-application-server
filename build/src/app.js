@@ -33,6 +33,8 @@ const morgan_1 = __importDefault(require("morgan"));
 const ipfs_controller_1 = __importDefault(require("./controllers/ipfs-controller"));
 const dao_controller_1 = __importDefault(require("./controllers/dao-controller"));
 const investment_controller_1 = __importDefault(require("./controllers/investment-controller"));
+const committee_controller_1 = __importDefault(require("./controllers/committee-controller"));
+const constants_1 = require("./constants");
 const chainID = process.env.CHAIN_ID;
 const ipfsGateway = process.env.IPFS_GATEWAY;
 exports.app = (0, express_1.default)();
@@ -45,12 +47,14 @@ exports.app.use((0, express_1.json)());
 exports.app.use("/ipfs", ipfs_controller_1.default);
 exports.app.use("/dao", dao_controller_1.default);
 exports.app.use("/investment", investment_controller_1.default);
+exports.app.use("/committee", committee_controller_1.default);
 exports.app.use("/", (req, res) => {
     res.send({
         message: "Hello world!",
         data: {
             chainID: chainID,
             ipfsGateway: ipfsGateway,
+            contractAddresses: constants_1.ADDRESSES[chainID],
         },
     });
 });
