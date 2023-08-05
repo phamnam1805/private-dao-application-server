@@ -7,6 +7,7 @@ import daoRouter from "./controllers/dao-controller";
 import investmentRouter from "./controllers/investment-controller";
 import bigInt from "big-integer";
 import committeeRouter from "./controllers/committee-controller";
+import { ADDRESSES } from "./constants";
 
 const chainID = process.env.CHAIN_ID as string;
 const ipfsGateway = process.env.IPFS_GATEWAY as string;
@@ -32,6 +33,7 @@ app.use("/", (req, res) => {
         data: {
             chainID: chainID,
             ipfsGateway: ipfsGateway,
+            contractAddresses: ADDRESSES[chainID],
         },
     });
 });
