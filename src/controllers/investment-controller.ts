@@ -4,6 +4,7 @@ import multer from "multer";
 import FormData from "form-data";
 import Helper from "../helper";
 import { ethers, sha256 } from "ethers";
+import { abi as dkgABI } from "../resources/DKG.json";
 import { abi as fundManagerABI } from "../resources/FundManager.json";
 import { abi as fundingRoundQueueABI } from "../resources/Queue.json";
 import { MerkleLeafRepository } from "../repositories/merkle-leaf";
@@ -29,6 +30,11 @@ investmentRouter.post("/paths", async (req, res) => {
 investmentRouter.post("/funding-rounds", async (req, res) => {
     try {
         let provider = Helper.getProvider();
+        let dkg = new ethers.Contract(
+            ADDRESSES[chainID]["DKG"],
+            dkgABI,
+            provider
+        );
         let fundManager = new ethers.Contract(
             ADDRESSES[chainID]["FundManager"],
             fundManagerABI,
@@ -113,6 +119,12 @@ investmentRouter.post("/funding-rounds", async (req, res) => {
                 )
             );
 
+            let fundingRoundRequestStates = await Promise.all(
+                fundingRounds.map((fundingRound: any) =>
+                    dkg.getTallyTrackerState(fundingRound.requestID)
+                )
+            )
+
             for (let i = 0; i < fundingRoundCounter - 1; i++) {
                 data.oldFundingRounds.push({
                     fundingRoundID: i,
@@ -124,6 +136,8 @@ investmentRouter.post("/funding-rounds", async (req, res) => {
                     finalizedAt: fundingRounds[i].finalizedAt,
                     failedAt: fundingRounds[i].failedAt,
                     keyID: fundingRoundKeys[i],
+                    requestID: fundingRounds[i].requestID,
+                    requestState: fundingRoundRequestStates[i],
                 });
             }
 
@@ -138,6 +152,8 @@ investmentRouter.post("/funding-rounds", async (req, res) => {
                     finalizedAt: fundingRounds[lastFundingRoundID].finalizedAt,
                     failedAt: fundingRounds[lastFundingRoundID].failedAt,
                     keyID: fundingRoundKeys[lastFundingRoundID],
+                    requestID: fundingRounds[lastFundingRoundID].requestID,
+                    requestState: fundingRoundRequestStates[lastFundingRoundID],
                 };
             } else {
                 data.oldFundingRounds.push({
@@ -150,6 +166,8 @@ investmentRouter.post("/funding-rounds", async (req, res) => {
                     finalizedAt: fundingRounds[lastFundingRoundID].finalizedAt,
                     failedAt: fundingRounds[lastFundingRoundID].failedAt,
                     keyID: fundingRoundKeys[lastFundingRoundID],
+                    requestID: fundingRounds[lastFundingRoundID].requestID,
+                    requestState: fundingRoundRequestStates[lastFundingRoundID],
                 });
             }
         } else {
