@@ -12,7 +12,7 @@ namespace Helper {
         if (chainID == "31337") {
             // let provider = new ethers.JsonRpcProvider("http://127.0.0.1:8545/");
             // let provider = new ethers.WebSocketProvider("ws://127.0.0.1:8545/");
-            let provider = new ethers.JsonRpcProvider("http://35.197.144.121:8545/");
+            let provider = new ethers.JsonRpcProvider("https://thepao-node.auxo.fund");
             return provider;
         } else {
             let provider = new ethers.InfuraProvider(

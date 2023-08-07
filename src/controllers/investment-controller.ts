@@ -80,12 +80,15 @@ investmentRouter.post("/funding-rounds", async (req, res) => {
 
             let fundingRoundQueuePromise = fundingRoundQueueContract.getQueue();
 
+            let fundingRoundInProgressPromise = fundManager.fundingRoundInProgress();
+
             let promiseResults: any = await Promise.all([
                 fundingRoundsPromise,
                 fundingRoundStatesPromise,
                 fundingRoundListDAOsPromise,
                 fundingRoundConfigPromise,
                 fundingRoundQueuePromise,
+                fundingRoundInProgressPromise
             ]);
 
             let fundingRounds = promiseResults[0];
@@ -93,6 +96,7 @@ investmentRouter.post("/funding-rounds", async (req, res) => {
             let fundingRoundListDAOs = promiseResults[2];
             let fundingRoundConfig = promiseResults[3];
             let fundingRoundQueue = promiseResults[4];
+            let fundingRoundInProgress = promiseResults[5];
 
             data.fundingRoundConfig = {
                 pendingPeriod: fundingRoundConfig.pendingPeriod,
@@ -127,7 +131,7 @@ investmentRouter.post("/funding-rounds", async (req, res) => {
                 });
             }
 
-            if (fundingRoundStates[lastFundingRoundID] < 4n) {
+            if (fundingRoundInProgress) {
                 data.currentFundingRound = {
                     fundingRoundID: lastFundingRoundID,
                     state: fundingRoundStates[lastFundingRoundID],
