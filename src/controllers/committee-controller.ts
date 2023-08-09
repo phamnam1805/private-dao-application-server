@@ -208,7 +208,7 @@ committeeRouter.post("/distributed-key-requests", async (req, res) => {
                 [...Array(daoCounter).keys()].map((index: any) => {
                     if (proposalCounters[index] > 0) {
                         return Promise.all(
-                            [...Array(proposalCounters[index]).keys()].map(
+                            [...Array(Number(proposalCounters[index])).keys()].map(
                                 (proposalIndex: any) => {
                                     let dao = new ethers.Contract(
                                         daoAddresses[index],

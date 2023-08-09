@@ -213,7 +213,10 @@ daoRouter.post("/:daoID/proposals/:proposalID", async (req, res) => {
 
         let requestID = proposal[0];
         let distributedKeyID = (await dao.requests(requestID)).distributedKeyID;
-        let publicKey = await dkg.getPublicKey(distributedKeyID);
+        let [publicKey, requestState] = await Promise.all([
+            dkg.getPublicKey(distributedKeyID),
+            dkg.getTallyTrackerState(requestID),
+        ]);
         let data = {
             daoConfig: {
                 pendingPeriod: daoConfig[0],
@@ -239,6 +242,7 @@ daoRouter.post("/:daoID/proposals/:proposalID", async (req, res) => {
                 },
             },
             state: state,
+            requestState: requestState,
         };
         (BigInt.prototype as any).toJSON = function () {
             return this.toString();
